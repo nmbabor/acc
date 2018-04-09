@@ -1,0 +1,1 @@
+{{Form::select('fk_loan_id',$data,'',['placeholder'=>'Select Loan ID','class'=>'form-control','required','id'=>'loan_id_list'])}}
