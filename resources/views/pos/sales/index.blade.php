@@ -91,10 +91,11 @@
                                     <div class='col-xs-12 col-sm-7 col-md-7 col-lg-7'>
                                         <input type="hidden" name="fk_user_id" value="{{Auth::user()->id}}">
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label">Sales or Order :</label>
+                                           {{-- <label class="col-md-4 control-label">Sales or Order :</label>--}}
                                             <div class="col-md-8">
-                                               <label><input tabindex="-1" type="radio" value="1" name="sales_type" checked required> Sales</label>
-                                               <label><input tabindex="-1" type="radio" value="0" name="sales_type" required> Order</label>
+                                               {{--<label><input tabindex="-1" type="radio" value="1" name="sales_type" checked required> Sales</label>
+                                               <label><input tabindex="-1" type="radio" value="0" name="sales_type" required> Order</label>--}}
+                                                <input type="hidden" value="1" name="sales_type">
                                             </div>
                                         </div>
                                     </div>
@@ -207,7 +208,7 @@
         $('#'+id).autocomplete({
             source: function( request, response ) {
                 $.ajax({
-                    //url: "{{URL::to('inventory-product-search')}}",
+
                     url: path+'/search-client/',
                     type: "GET",
                     dataType: "json",

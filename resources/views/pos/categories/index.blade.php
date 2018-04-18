@@ -50,6 +50,12 @@
 			                                     	<input type="text" class="form-control" name="category_name" value="" placeholder="Enter category Name">
 			                                    </div>
 			                                </div>
+											<div class="form-group">
+												<label class="control-label col-md-4 col-sm-4" for="category_name">Category Type * :</label>
+												<div class="col-md-6 col-sm-6">
+													{{Form::select('type',[1=>'Product Category',2=>'Services Category'],1,['class'=>'form-control','required'])}}
+												</div>
+											</div>
 			                                   
                                         </div>
                                         <div class="modal-footer">
@@ -68,7 +74,8 @@
 	                                <thead>
 	                                    <tr>
 	                                        <th width="10%">Sl</th>
-	                                        <th width="65%">Category Name</th>
+	                                        <th width="45%">Category Name</th>
+	                                        <th width="20%">Type</th>
 	                                        <th width="10%">status</th>
 	                                        <th width="15%">Action</th>
 	                                    </tr>
@@ -81,6 +88,13 @@
 	                                        <td>{{$i}}</td>
 	                                        <td>{{$category->category_name}}</td>
 	                                        <td>
+	                                        	@if($category->type=="1")
+	                                        		{{"Product Category"}}
+	                                        	@else
+	                                        		{{"Services Category"}}
+	                                        	@endif
+	                                        </td>
+											<td>
 	                                        	@if($category->status=="1")
 	                                        		{{"Active"}}
 	                                        	@else
@@ -125,6 +139,12 @@
 	                                                                    </div>
 	                                                                </div> 
 	                                                            </div>
+																<div class="form-group">
+																	<label class="control-label col-md-4 col-sm-4" for="category_name">Category Type * :</label>
+																	<div class="col-md-6 col-sm-6">
+																		{{Form::select('type',[1=>'Product Category',2=>'Services Category'],$category->type,['class'=>'form-control','required'])}}
+																	</div>
+																</div>
 	                                                           
 	                                                        </div>
 	                                                        

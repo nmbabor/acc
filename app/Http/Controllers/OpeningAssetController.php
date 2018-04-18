@@ -101,10 +101,12 @@ class OpeningAssetController extends Controller
      */
     public function edit($id)
     {
-         DB::statement(DB::raw('set @rownum=0'));
+        $count = OpeningAsset::count('*');
+        DB::statement(DB::raw("set @rownum=$count+1"));
+
         $allData = OpeningAsset::leftJoin('inventory_branch','fk_branch_id','inventory_branch.id')
                 ->leftJoin('sub_category','fk_sub_category_id','sub_category.id')
-                ->select('opening_assets.*','sub_category_name','branch_name',DB::raw('@rownum := @rownum + 1 AS sl'));
+                ->select('opening_assets.*','sub_category_name','branch_name',DB::raw('@rownum := @rownum - 1 AS sl'));
         return DataTables::of($allData)
                 
                 ->addColumn('action','

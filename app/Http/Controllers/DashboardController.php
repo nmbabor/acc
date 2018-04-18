@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\InventoryProductSales;
+use App\Models\InventoryProductSalesItem;
+use App\Models\InventorySalesChallanItem;
+use App\Models\PaymentHistory;
+use App\Models\PaymentHistoryItem;
 use Illuminate\Http\Request;
 
 use App\Models\CompanyInfo;
@@ -23,14 +28,38 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $companyInfo = CompanyInfo::first();
         $emailConfig = EmailConfig::first();
         $condition = TermsCondition::first();
         $branch=InventoryBranch::where('status',1)->pluck('branch_name','id');
 
-        return view('index' ,compact('companyInfo','emailConfig','condition','branch'));
+        if(isset($request->start) and isset($request->end)){
+            $start = $request->start;
+            $start = strtotime($start);
+            $end = $request->end;
+            $end = strtotime($end);
+            if($start>$end){
+                return redirect()->back()->with('error','Date select is not correct!');
+            }
+            for ($i=$start; $i<=$end; $i+=86400) {
+                $date  = date("Y-m-d", $i);
+                $sales[] = InventoryProductSales::whereDate('date',$date)->select(DB::raw('SUM(total_amount) as total_amount'))->value('total_amount');
+                $dates[] =date('M jS',strtotime($date));
+            }
+
+        }else{
+            $days = 14;
+            for ($i=$days;$i>=0;$i--){
+                $date = date('Y-m-d', strtotime('today - '.$i.' days'));
+                $sales[] = InventoryProductSales::whereDate('date',$date)->select(DB::raw('SUM(total_amount) as total_amount'))->value('total_amount');
+                $dates[] =date('M jS',strtotime($date));
+            }
+        }
+        $dates = json_encode($dates,true);
+        $sales = json_encode($sales,true);
+        return view('index' ,compact('companyInfo','emailConfig','condition','branch','sales','dates'));
 
         
     }
@@ -87,5 +116,34 @@ class DashboardController extends Controller
         }
         return $all;
     }
-
+    public function costPrice(){
+        $allData=InventoryProductSalesItem::where('cost_amount',null)->get();
+        foreach($allData as $data){
+            $amount = InventorySalesChallanItem::where('fk_sales_item_id',$data->id)->value('cost_amount');
+            InventoryProductSalesItem::where('id',$data->id)->update(['cost_amount'=>$amount]);
+        }
+        return "Complete Sir";
+    }
+    public function historyItem(){
+        $allData = PaymentHistory::get();
+        foreach ($allData as $item) {
+            PaymentHistoryItem::create([
+                'fk_history_id'=>$item->id,
+                'fk_payment_item_id'=>$item->fk_payment_id,
+                'last_due'=>$item->last_total_due,
+                'paid'=>$item->total_paid,
+            ]);
+        }
+        return "Complete sir";
+    }
+    public function paymentHistory(){
+        $allData = PaymentHistory::leftJoin('payment_cost_item','payment_history.fk_payment_item_id','payment_cost_item.id')->select('payment_history.id as id','payment_cost_item.fk_payment_id as payment_id',DB::raw('SUM(last_total_due) as last_total_due'),DB::raw('SUM(total_paid) as total_paid'))->groupBy('payment_history.fk_payment_id')->get();
+        foreach ($allData as $item) {
+            PaymentHistory::where('id',$item->id)->update([
+                'total_paid'=>$item->total_paid,
+                'last_total_due'=>$item->last_total_due,
+            ]);
+        }
+        return "Complete sir";
+    }
 }

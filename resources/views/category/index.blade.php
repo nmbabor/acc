@@ -38,6 +38,7 @@
 										<input class="form-control" type="text" id="category_name" name="category_name" placeholder="Category Name" data-parsley-required="true" />
 									</div>
 								</div>
+
 								<div class="form-group">
 									<label class="control-label col-md-4 col-sm-4">Category Status :</label>
 									<div class="col-md-1 col-sm-1">

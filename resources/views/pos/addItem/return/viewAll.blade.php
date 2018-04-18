@@ -31,7 +31,6 @@
                                         <th>Total Amount</th>
                                         <th>Total Return</th>
                                         <th>Back Amount</th>
-                                        <th>Branch</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -53,16 +52,15 @@
             $('#all_data').DataTable( {
                 processing: true,
                 serverSide: true,
-                ajax: '{!! URL::to("inventory-return-all") !!}',
+                ajax: '{!! URL::to("inventory-purchase-return-all") !!}',
                 columns: [
                     { data: 'sl',searchable:false},
-                    { data: 'invoice_id',name:'inventory_product_sales.invoice_id'},
-                    { data: 'company_name',name:'inventory_clients.company_name'},
-                    { data: 'date',name:'inventory_product_return.date'},
-                    { data: 'total_amount',name:'inventory_product_return.total_amount'},
-                    { data: 'total_return',name:'inventory_product_return.total_return'},
-                    { data: 'back_amount',name:'inventory_product_return.back_amount'},
-                    { data: 'branch_name',name:'inventory_branch.branch_name'},
+                    { data: 'inventory_order_id',name:'inventory_product_add.inventory_order_id'},
+                    { data: 'company_name',name:'inventory_supplier.company_name'},
+                    { data: 'date',name:'inventory_purchase_return.date'},
+                    { data: 'total_amount',name:'inventory_purchase_return.total_amount'},
+                    { data: 'total_return',name:'inventory_purchase_return.total_return'},
+                    { data: 'back_amount',name:'inventory_purchase_return.back_amount'},
                     { data: 'action'}
                 ]
             });

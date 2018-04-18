@@ -9,23 +9,21 @@
                     <div class="panel panel-inverse">
                         <div class="panel-heading">
                             <div class="panel-heading-btn">
-                                @if(isset($client))
-                                    <a href="javascript:;" onclick="printPage('print_body')" class="btn btn-xs btn-success"><i class="fa fa-print"></i> Print</a>
-                                @else
-                                	<a class="btn btn-info btn-xs" href="{{URL::to('/inventory-return')}}">View All</a>
-                                @endif
+
+                                	<a class="btn btn-info btn-xs" href="{{URL::to('/inventory-purchase-return')}}">View All</a>
+
                             </div>
-                            <h4 class="panel-title">Product Return</h4>
+                            <h4 class="panel-title">Purchase Product Return</h4>
                         </div>
                         <div class="panel-body">
                            
-                            {!! Form::open(array('url' =>'inventory-return/create','class'=>'form-horizontals','method'=>'GET','role'=>'form','data-parsley-validate novalidate')) !!}
+                            {!! Form::open(array('url' =>'inventory-purchase-return/create','class'=>'form-horizontals','method'=>'GET','role'=>'form','data-parsley-validate novalidate')) !!}
                                 <div class="col-md-4 no-padding">
                                     <div class="form-group">
                                         <label class="col-md-12" for="client">Select Organization :</label>
                                         <div class="col-md-12">
                                             <? $id= isset($client)?$client->id:''?>
-                                            {{Form::select('id',$clients,$id,['class'=>'form-control select','placeholder'=>'Select Organization'])}}
+                                            {{Form::select('id',$clients,$id,['class'=>'form-control select','placeholder'=>'Select Organization','required'])}}
                                         </div>
                                     </div>                                    
                                 </div>
@@ -59,12 +57,11 @@
                                 <br>
                                 <hr class="min">
                             </div>
-                        @if(isset($sales))
+                        @if(isset($client))
                         @if(count($sales)>0)
                         {!! Form::open(array('route' => 'inventory-return.store','class'=>'form-horizontal author_form','method'=>'POST','files'=>'true', 'id'=>'commentForm','role'=>'form','data-parsley-validate novalidate')) !!}
                         <div id="print_body" style="width: 100%;overflow: hidden; padding: 10px 20px;">
                           @include('pad.header')
-                            @if(isset($client))
                             <table width="100%">
                                 <tr>
                                     <td><b>Organization Name : </b> <? echo $client->company_name ?></td>
@@ -73,8 +70,6 @@
                                     <td><b>Email : </b> <? echo $client->email_id ?></td>
                                 </tr>
                             </table>
-                                <input type="hidden" name="fk_client_id" value="{{$client->id}}">
-                            @endif
                             <br>
                             <table class="table table-bordered">
                                 <thead>
@@ -98,14 +93,14 @@
                                 ?>
                                 <tr>
                                     <td>{{$i}}</td>
-                                    <td><a href='{{URL::to("inventory-sales-invoice/$data->invoice_id")}}'>{{$data->invoice_id}}</a> </td>
+                                    <td><a href='{{URL::to("inventory-product-add/$data->invoice_id")}}'>{{$data->inventory_order_id}}</a> </td>
                                     <td>{{$data->date}}</td>
                                     <td>{{round($data->total_amount,3)}}
                                     </td>
-                                    <td>{{round($data->paid_amount,3)}}</td>
-                                    <td>{{round($data->total_amount-$data->paid_amount,3)}}</td>
+                                    <td>{{round($data->total_paid,3)}}</td>
+                                    <td>{{round($data->total_amount-$data->total_paid,3)}}</td>
                                     <td>
-                                        <a href='{{URL::to("inventory-return/$data->id")}}' class="btn btn-xs btn-info"> <i class="fa fa-eye"></i></a>
+                                        <a href='{{URL::to("inventory-purchase-return/$data->id")}}' class="btn btn-xs btn-info"> <i class="fa fa-eye"></i></a>
                                     </td>
                                 </tr>
                                 <input type="hidden" name="fk_sales_id[]" value="{{$data->id}}">
@@ -119,7 +114,7 @@
                        </div>
                         </div><!-- / print-body -->
                       
-
+                        <input type="hidden" name="fk_client_id" value="{{$client->id}}">
                         <div class="col-md-6"></div>
                         <div class="col-md-6"></div>
                         {{Form::close()}}

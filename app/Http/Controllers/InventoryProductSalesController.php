@@ -240,6 +240,7 @@ class InventoryProductSalesController extends Controller
                         'inventory_item_id'=>$inventoryId,
                         'payable_amount'=>$input['product_paid_amount'][$i]-$discount,
                         ]);
+                    InventoryProductSalesItem::where('id',$salesItemId)->update(['cost_amount'=>$price]);
                     /*---Update available Quantity---*/
                         
                         $getInventory = Inventory::leftJoin('inventory_product','inventory.fk_product_id','inventory_product.id')
@@ -671,6 +672,7 @@ class InventoryProductSalesController extends Controller
                     'inventory_item_id' => $inventoryId,
                     'product_wise_discount'=>$qtyDiscount,
                     'product_paid_amount' => $input['product_paid_amount'][$i]-$discount,
+                    'cost_amount'=>$price,
                 ]);
 
         }

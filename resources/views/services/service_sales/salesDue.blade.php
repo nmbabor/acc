@@ -15,10 +15,10 @@
                     <div class="panel panel-inverse">
                         <div class="panel-heading">
                             <div class="panel-heading-btn">
-                                <a class="btn btn-info btn-xs" href="{{URL::to('/inventory-return/create')}}">New Return</a>
+                                <a class="btn btn-info btn-xs" href="{{URL::to('/inventory-product-sales/create')}}">Add New Sales</a>
                                 
                             </div>
-                            <h4 class="panel-title">View All Return </h4>
+                            <h4 class="panel-title">View Sales </h4>
                         </div>
                         <div class="panel-body">
                             <table id="all_data" class="table table-striped table-bordered nowrap" width="100%">
@@ -26,12 +26,11 @@
                                     <tr>
                                         <th>SL</th>
                                         <th>Invoice Id</th>
-                                        <th>Organization Name</th>
-                                        <th>Return Date</th>
+                                        <th>Client Name</th>
+                                        <th>Date</th>
                                         <th>Total Amount</th>
-                                        <th>Total Return</th>
-                                        <th>Back Amount</th>
-                                        <th>Branch</th>
+                                        <th>Paid Amount</th>
+                                        <th>Due Amount</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -53,19 +52,21 @@
             $('#all_data').DataTable( {
                 processing: true,
                 serverSide: true,
-                ajax: '{!! URL::to("inventory-return-all") !!}',
+                ajax: '{!! URL::asset("service-sales-all-due") !!}',
                 columns: [
-                    { data: 'sl',searchable:false},
-                    { data: 'invoice_id',name:'inventory_product_sales.invoice_id'},
-                    { data: 'company_name',name:'inventory_clients.company_name'},
-                    { data: 'date',name:'inventory_product_return.date'},
-                    { data: 'total_amount',name:'inventory_product_return.total_amount'},
-                    { data: 'total_return',name:'inventory_product_return.total_return'},
-                    { data: 'back_amount',name:'inventory_product_return.back_amount'},
-                    { data: 'branch_name',name:'inventory_branch.branch_name'},
+                    
+                    { data: 'sl'},
+                    { data: 'invoice_id'},
+                    { data: 'client_name'},
+                    { data: 'date'},
+                    { data: 'total_amount'},
+                    { data: 'paid_amount'},
+                    { data: 'due_amount'},
                     { data: 'action'}
                 ]
             });
         });
     </script>
+    
+
     @endsection

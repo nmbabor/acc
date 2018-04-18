@@ -27,8 +27,7 @@
     <!-- Custom scripts for all pages-->
     <script src="{{asset('public/dashboard/js/sb-admin.min.js')}}"></script>
     @if(Request::path()=='dashboard')
-    <script src="{{asset('public/dashboard/vendor/chart.js/Chart.min.js')}}"></script>
-    <script src="{{asset('public/dashboard/js/sb-admin-charts.min.js')}}"></script>
+
     @endif
     <!-- Custom scripts for this page-->
     <script src="{{asset('public/dashboard/js/sb-admin-datatables.min.js')}}"></script>

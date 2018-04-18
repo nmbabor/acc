@@ -39,18 +39,18 @@
                     <div id="customer_info">
                     <div class="row">
                         <div class="customerInfo" style="width: 60%;float: left;">
-                            <p><b><u>Client Information</u></b></p>
-                            <p><b>Organization Name : </b>{{$data->sales->client->company_name}}</p>
-                            <p><b>Address : </b> {{$data->sales->client->address}}</p>
-                            <p><b>Mobile No :</b> {{$data->sales->client->mobile_no}}</p>
-                            <p><b>Customer Id :</b> {{$data->sales->client->client_id}}</p>
+                            <p><b><u>Supplier Information</u></b></p>
+                            <p><b>Organization Name : </b>{{$data->purchase->supplier->company_name}}</p>
+                            <p><b>Address : </b> {{$data->purchase->supplier->address}}</p>
+                            <p><b>Mobile No :</b> {{$data->purchase->supplier->mobile_no}}</p>
+                            <p><b>Supplier Id :</b> {{$data->purchase->supplier->suppllier_id}}</p>
 
                         </div>
                         <div class="invoiceInfo" style="width: 40%;float: left;">
                             <table class="table table-bordered">
                                 <tr>
                                     <th>Invoice #: </th>
-                                    <th>{{$data->sales->invoice_id}} </th>
+                                    <th>{{$data->purchase->inventory_order_id}} </th>
                                 </th>
                                 </tr>
                                  <tr>
@@ -88,7 +88,7 @@
                                 <tr>
                                     <td>{{$i}}</td>
                                     <td>{{$product->items->product->product_name}}</td>
-                                    <td>{{$product->items->sales_qty+$product->qty}}</td>
+                                    <td>{{$product->items->qty+$product->qty}}</td>
                                     <td>{{$product->qty}}</td>
                                     <td class="text-right">{{round($product->sub_total,2)}}</td>
                                 </tr>

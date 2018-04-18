@@ -172,10 +172,9 @@ class InventoryReportController extends Controller
         $year = date('Y');
         $monthN = date('m');
       }
-        $salesQuery=InventorySalesChallanItem::leftJoin('inventory_sales_delivery_challan','inventory_sales_challan_item.fk_sales_challan_id','inventory_sales_delivery_challan.id')
-        ->leftJoin('inventory_product_sales','inventory_sales_delivery_challan.fk_sales_id','inventory_product_sales.id')
-        ->whereBetween('received_date',[$start,$end])
-          ->select(DB::raw('SUM(payable_amount) as total_amount'),DB::raw('SUM(cost_amount) as total_cost'));
+        $salesQuery=InventoryProductSalesItem::leftJoin('inventory_product_sales','inventory_product_sales_item.fk_sales_id','inventory_product_sales.id')
+        ->whereBetween('date',[$start,$end])
+          ->select(DB::raw('SUM(inventory_product_sales.total_amount) as total_amount'),DB::raw('SUM(inventory_product_sales_item.cost_amount) as total_cost'));
         if(Auth::user()->isRole('administrator')){
           if(isset($request->branch)){
             $salesQuery=$salesQuery->where('fk_branch_id',$request->branch);

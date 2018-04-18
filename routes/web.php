@@ -131,6 +131,12 @@ Route::group(['middleware' =>'auth'], function(){
 	Route::resource('account-money-transfer', 'AccountMoneyTransferController');
 	Route::get('load-acoount/{id}/{i}', 'AccountMoneyTransferController@loadAccount');
 	Route::resource('inventory-return', 'InventoryProductReturnController');
+	Route::get('inventory-return-all', 'InventoryProductReturnController@all');
+	Route::get('inventory-return-show/{id}', 'InventoryProductReturnController@single');
+	/*Inventory Purchase Return*/
+    Route::resource('inventory-purchase-return', 'InventoryPurchaseReturnController');
+    Route::get('inventory-purchase-return-all', 'InventoryPurchaseReturnController@all');
+    Route::get('inventory-purchase-return-show/{id}', 'InventoryPurchaseReturnController@single');
 	/*start General account system*/
 	// project section
 	Route::resource('deposit', 'DepositController');
@@ -245,6 +251,19 @@ Route::group(['middleware' =>'auth'], function(){
 	Route::get('receivable-loan-check/{id}','BankLoanController@receivableLoanCheck');
 	Route::get('payable-loan-id','BankLoanController@payableId');
 	Route::get('receivable-loan-id','BankLoanController@receivableId');
+	/*-- Services --*/
+	Route::resource('services', 'ServicesController');
+    Route::resource('services-sales', 'ServiceSalesController');
+    Route::get('services-sales-due-paid/{id}', 'ServiceSalesController@duePaid');
+    Route::post('services-sales-due-paid/{id}', 'ServiceSalesController@dueUpdate');
+    Route::get('service-sales-all-due', 'ServiceSalesController@viewAllDue');
+    Route::get('services-sales-due', 'ServiceSalesController@due');
+    Route::get('all-services-sales', 'ServiceSalesController@allData');
+    Route::get('loadClientInfo/{id}','ServiceSalesController@loadClientInfo');
+    Route::get('service-search', 'ServiceSalesController@searchService');
+    Route::resource('service-payment', 'ServicePaymentController');
+    Route::get('service-payment-invoice/{id}', 'ServicePaymentController@invoice');
+    Route::get('service-payment-all', 'ServicePaymentController@allPayment');
 
 
 });
@@ -255,3 +274,7 @@ Route::get('payment-public-invoice/{id}', 'PaymentController@publicInvoice');
 //client wise due deposit
 Route::get('deposit-public-invoice-client-wise/{id}', 'ClientWiseDueDepositController@publicInvoice');
 Route::get('payment-public-invoice-client-wise/{id}', 'ClientWiseDuePaymentController@publicInvoice');
+// Script
+Route::get('cost-price', 'DashboardController@costPrice');
+Route::get('script-payment-history-item', 'DashboardController@historyItem');
+Route::get('script-payment-history', 'DashboardController@paymentHistory');

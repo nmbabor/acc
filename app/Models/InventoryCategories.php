@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class InventoryCategories extends Model
 {
     protected $table = "product_category";
-    protected $fillable = ['category_name','status']; 
+    protected $fillable = ['category_name','status','type'];
 }
